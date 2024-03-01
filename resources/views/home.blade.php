@@ -3,7 +3,7 @@
 @section('body')
 
 <div class="mx-auto px-2 lg:min-h-screen flex flex-col items-center justify-center">
-    <article class="mt-4 p-8 w-3/5">
+    <article class="mt-4 p-8 w-3/5 relative">
         <div class="flex space-x-96 mb-4">
             <h1 class="flex items-center font-medium text-4xl">{{ $title }}</h1>
             <a href="/">
@@ -26,27 +26,45 @@
             <ul class="slides">
                 @foreach(Statamic::tag('collection:slide') as $entry)
                     <li>
-                        <div class="flex bg-white">
+                        <div class="flex">
                             <div class="flex slide bg-gray-200 p-8 w-1/2 items-center align-middle">
                                 <img src="{{ $entry->slide_image[0] }}" alt="{{ $entry->slide_image[0]->alt ?? 'Image' }}">
                             </div>
-                            <div class="content w-1/2 m-8">
-                                <h2 class="text-2xl font-bold">{{ $entry->title }}</h2>
-                                {!! $entry->content !!}
-                                <div class="slide-count">
+                            <div class="content bg-white w-1/2 p-8">
+                                <div class="content-inner">
+                                    <div>
+                                        <h2 class="text-2xl font-bold">{{ $entry->title }}</h2>
+                                        {!! $entry->content !!}
+                                    </div>
+                                    @if ($entry->link_to && trim($entry->link_to) !== '')
+                                        <div>
+                                            <a href="{{ $entry->link_to }}" class="block mt-5 text-[#8ac66e]">Learn more</a>
+                                        </div>
+                                    @endif
+                                </div>
+                                <hr class="mt-5">
+                                <div class="slide-count mt-5 flex justify-between items-center">
                                     <strong>
                                         <span id="current"></span>/<span id="total"></span>
                                     </strong>
+                                    <div class="custom-navigation flex gap-2">
+                                        <button class="flex-prev hover:bg-[#e20ab7] bg-[#f8c2ed] text-sm text-white w-6 h-6 flex justify-between items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 flex-1">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                                            </svg>
+                                        </button>
+                                        <button class="flex-next hover:bg-[#e20ab7] bg-[#f8c2ed] text-sm text-white w-6 h-6 flex justify-between items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 flex-1">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </li>
                 @endforeach
             </ul>
-            <div class="custom-navigation">
-                <a href="#" class="flex-prev">Prev</a>
-                <a href="#" class="flex-next">Next</a>
-            </div>
         </div>
     </article>
 </div>
@@ -59,7 +77,6 @@
                 slideshow: false,
                 directionNav: false,
                 controlNav: false,
-                customDirectionNav: $(".custom-navigation a"),
                 start: function(slider) {
                     $('#slider .slide-count #current').text(slider.currentSlide + 1);
                     $('#slider .slide-count #total').text(slider.count) + 1;
@@ -68,6 +85,14 @@
                     $('#slider .slide-count #current').text(slider.currentSlide + 1);
                 }
             });
+            $('.custom-navigation').each(function(){
+                $(this).find('.flex-prev').click(function(){
+                    $('#slider').flexslider('prev');
+                });
+                $(this).find('.flex-next').click(function(){
+                    $('#slider').flexslider('next');
+                });
+            })
         });
     })(jQuery);
 </script>
