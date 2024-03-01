@@ -26,38 +26,47 @@
             <ul class="slides">
                 @foreach(Statamic::tag('collection:slide') as $entry)
                     <li>
-                        <div class="flex">
+                        <div class="flex min-h-[500px]">
                             <div class="flex slide bg-gray-200 p-8 w-1/2 items-center align-middle">
                                 <img src="{{ $entry->slide_image[0] }}" alt="{{ $entry->slide_image[0]->alt ?? 'Image' }}">
                             </div>
                             <div class="content bg-white w-1/2 p-8">
-                                <div class="content-inner">
+                                <div class="content-inner h-[360px]">
                                     <div>
-                                        <h2 class="text-2xl font-bold">{{ $entry->title }}</h2>
-                                        {!! $entry->content !!}
+                                        <h2 class="text-2xl font-bold mb-3">{{ $entry->title }}</h2>
+                                        <div class="h-[270px] overflow-auto">
+                                            {!! $entry->content !!}
+                                        </div>
                                     </div>
-                                    @if ($entry->link_to && trim($entry->link_to) !== '')
-                                        <div>
-                                            <a href="{{ $entry->link_to }}" class="block mt-5 text-[#8ac66e]">Learn more</a>
+                                    @if ($entry->link_url && trim($entry->link_url) !== '')
+                                        <div class="mt-5">
+                                            <a href="{{ $entry->link_url }}" class="flex items-center text-[#8ac66e]">
+                                                {{ $entry->link_text ?? 'Learn more' }}
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-4 h-4">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                                                </svg>
+                                            </a>
                                         </div>
                                     @endif
                                 </div>
-                                <hr class="mt-5">
-                                <div class="slide-count mt-5 flex justify-between items-center">
-                                    <strong>
-                                        <span id="current"></span>/<span id="total"></span>
-                                    </strong>
-                                    <div class="custom-navigation flex gap-2">
-                                        <button class="flex-prev bg-[#e20ab7] hover:bg-[#f8c2ed] text-sm text-white w-6 h-6 flex justify-between items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 flex-1">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-                                            </svg>
-                                        </button>
-                                        <button class="flex-next bg-[#e20ab7] hover:bg-[#f8c2ed] text-sm text-white w-6 h-6 flex justify-between items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 flex-1">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                                            </svg>
-                                        </button>
+                                <div class="slide-footer">
+                                    <hr class="mt-5">
+                                    <div class="slide-count mt-5 flex justify-between items-center">
+                                        <strong>
+                                            <span id="current"></span>/<span id="total"></span>
+                                        </strong>
+                                        <div class="custom-navigation flex gap-2">
+                                            <button class="flex-prev bg-[#e20ab7] hover:bg-[#f8c2ed] text-sm text-white w-6 h-6 flex justify-between items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 flex-1">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                                                </svg>
+                                            </button>
+                                            <button class="flex-next bg-[#e20ab7] hover:bg-[#f8c2ed] text-sm text-white w-6 h-6 flex justify-between items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 flex-1">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                                                </svg>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
