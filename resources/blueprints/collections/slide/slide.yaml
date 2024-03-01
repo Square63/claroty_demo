@@ -51,15 +51,29 @@ tabs:
               display: Template
               localizable: true
           -
-            handle: link_to
+            handle: link_text
             field:
-              type: link
-              display: 'Link To'
+              input_type: text
+              antlers: false
+              type: text
+              display: 'Link Text'
               listable: hidden
               instructions_position: above
               visibility: visible
               replicator_preview: true
               hide_display: false
+          -
+            handle: link_url
+            field:
+              type: link
+              display: 'Link URL'
+              listable: hidden
+              instructions_position: above
+              visibility: visible
+              replicator_preview: true
+              hide_display: false
+              validate:
+                - 'required_if:link_text,value'
   sidebar:
     display: Sidebar
     sections:
